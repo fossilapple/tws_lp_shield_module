@@ -5,13 +5,15 @@
 
 // JIS keyboard layout conversion definitions
 // Reference: https://note.com/kloir_z/n/n314e739f03a1
-#define CARET EQUAL                         // ^
-#define COLON SINGLE_QUOTE                  // :
-#define RIGHT_BRACKET       BACKSLASH       // ]
-#define LEFT_BRACKET        RIGHT_BRACKET   // [
-#define NON_US_BACKSLASH    0x89            // ¥
-#define AT                  LEFT_BRACKET    // @
-#define UNDSCR              LS(0x87)        // _
+#define JP_CARET EQUAL              // ^
+#define JP_AT LEFT_BRACKET          // @
+#define JP_COLON SINGLE_QUOTE       // :
+#define JP_LBRACKET RIGHT_BRACKET   // [
+#define JP_RBRACKET BACKSLASH       // ]
+#define JP_YEN      0x89            // ¥
+#define JP_UNDSCR   LS(0x87)        // _
+#define JP_PLUS     COLON           // +
+#define JP_EQUAL    UNDER           // =
 
 / {
     keymap {
@@ -26,11 +28,11 @@
 //       | SHIFT |  Z  |  X  |  C  |  V  |  B  |     |  @  |  /  |  N  |  M  |  ,  |  .  |  ↑  | SHIFT |
 //       | CTRL  | ALT | GUI | DEL |EISU | SPC |     |KANA |     | SPC |  _  | Fn  |  ←  |  ↓  |   →   |
             bindings = <
-&kp ESC &kp N1    &kp N2    &kp N3   &kp N4   &kp N5    &kp N6              &kp N7          &kp N8          &kp N9    &kp N0        &kp MINUS &kp CARET   &kp NON_US_BACKSLASH &kp BSPC
-        &kp TAB   &kp Q     &kp W    &kp E    &kp R     &kp T               &kp LEFT_BRACKET &kp RIGHT_BRACKET &kp Y     &kp U         &kp I     &kp O          &kp P       &kp ENTER
-        &mo 1     &kp A     &kp S    &kp D    &kp F     &kp G               &kp SEMI        &kp COLON    &kp H     &kp J         &kp K     &kp L          &kp ENTER
-        &kp LSHFT &kp Z     &kp X    &kp C    &kp V     &kp B               &kp AT          &kp FSLH        &kp N     &kp M         &kp COMMA &kp DOT        &kp UP      &kp RSHFT
-        &kp LCTRL &kp LALT  &kp DEL  &kp LGUI &kp LANG2 &kp SPACE           &kp LANG1       &trans          &kp SPACE &kp UNDERSCORE &mo 1     &kp LEFT       &kp DOWN    &kp RIGHT
+&kp ESC &kp N1    &kp N2    &kp N3   &kp N4   &kp N5    &kp N6              &kp N7          &kp N8          &kp N9      &kp N0      &kp MINUS &kp JP_CARET    &kp JP_YEN  &kp BSPC
+        &kp TAB   &kp Q     &kp W    &kp E    &kp R     &kp T               &kp JP_LBRACKET &kp JP_RBRACKET &kp Y       &kp U       &kp I     &kp O           &kp P       &ENTER
+        &mo 1     &kp A     &kp S    &kp D    &kp F     &kp G               &trans          &kp JP_COLON    &kp H       &kp J       &kp K     &kp L           &kp SEMI
+        &kp LSHFT &kp Z     &kp X    &kp C    &kp V     &kp B               &trans          &kp JP_AT       &kp N       &kp M       &kp COMMA &kp DOT         &kp UP      &kp FSLH
+        &kp LCTRL &kp LALT  &kp DEL  &kp LGUI &kp LANG2 &lt 1 SPACE         &trans          &trans          &lt 1 SPACE &kp LANG1   &kp JP_UNDSCR &kp LEFT  &kp DOWN        &kp RIGHT
             >;
         };
 
@@ -43,11 +45,11 @@
 //       |       |     |     |     |     |     |       |     |     |     |     |     |     |     |
 //       |   Fn  |     |     |     |     |     |       |     |     |     |     | Fn  |     |     |
             bindings = <
-&trans  &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6    &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12 &trans &kp DEL
-        &trans &trans &trans &trans &trans &trans    &trans &trans &trans &trans  &trans  &trans  &trans &trans
-        &mo 2  &trans &trans &trans &trans &trans    &trans &trans &trans &trans  &trans  &trans  &trans
-        &trans &trans &trans &trans &trans &trans    &trans &trans &trans &trans  &trans  &trans  &trans &trans
-        &trans &trans &trans &trans &trans &trans    &trans &trans &trans &trans  &mo 2   &trans  &trans &trans
+&trans  &kp F1 &kp F2 &kp F3    &kp F4      &kp F5      &kp F6          &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12 &trans &kp DEL
+        &trans &trans &kp N7    &kp N8      &kp N9      &kp MINUS       &trans &trans &trans &trans  &trans  &trans  &trans &trans
+        &mo 2  &trans &kp N4    &kp N5      &kp N6      &kp JP_PLUS     &trans &trans &trans &trans  &trans  &trans  &trans
+        &trans &trans &kp N1    &kp N2      &kp N3      &kp JP_EQUAL    &trans &trans &trans &trans  &trans  &trans  &trans &trans
+        &trans &trans &kp N0    &kp DOT     &kp SPACE   &kp ENTER       &trans &trans &mo 2 &trans  &trans   &trans  &trans &trans
             >;
         };
 
@@ -61,7 +63,7 @@
 //       |     |     |     |     |     |     |       |     |     |     |     |     |     |     |
             bindings = <
 &trans  &trans &trans       &trans         &trans       &trans       &trans    &trans   &trans &trans &trans  &trans  &trans  &trans &trans
-        &trans &bt BT_SEL 0 &bt BT_SEL 1   &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &trans &trans &trans &trans  &trans  &trans  &trans &trans
+        &trans &bt BT_SEL 0 &bt BT_SEL 1   &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &trans &trans &trans &trans  &trans  &soft_off  &trans &trans
         &trans &bt BT_CLR   &bt BT_CLR_ALL &trans       &trans       &trans    &trans   &trans &trans &trans  &trans  &trans  &trans
         &trans &trans       &trans         &trans       &ind_con     &ind_bat  &ind_con &ind_bat &trans &trans &trans &trans  &trans &trans
         &trans &trans       &trans         &trans       &trans       &trans    &trans   &trans &trans &trans  &trans  &trans  &trans &trans
